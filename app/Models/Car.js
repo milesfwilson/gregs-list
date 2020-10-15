@@ -4,7 +4,7 @@ export default class Car {
     this.make = make
     this.model = model
     this.year = year
-    this.price = price
+    this.price = parseInt(price)
     this.img = img || "//placehold.it/200x200"
     this.description = description || "No description available"
     this.id = generateId()
