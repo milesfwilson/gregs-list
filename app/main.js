@@ -5,7 +5,6 @@ import JobsController from "./Controllers/JobsController.js";
 class App {
   carsController = new CarsController()
   housesController = new HousesController()
-
   jobsController = new JobsController()
 }
 
