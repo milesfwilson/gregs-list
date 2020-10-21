@@ -10,51 +10,70 @@ function _draw() {
 
 export default class HousesController {
   constructor() {
-    console.log("Houses controller")
     _draw()
     ProxyState.on("houses", _draw)
   }
 
-  bid(id) {
-    event.preventDefault();
-    let form = event.target
-    // @ts-ignore
-    console.log(form.bid.value)
-    // @ts-ignore
-    let bid = parseInt(form.bid.value)
-    housesService.bid(id, bid)
-    // @ts-ignore
-    Swal.fire(
-      'Bid Placed!',
-      'Keep a watchful eye!',
-      'success'
-    )
-  }
+  // bid(id) {
+  //   event.preventDefault();
+  //   let form = event.target
+  //   // @ts-ignore
+  //   console.log(form.bid.value)
+  //   // @ts-ignore
+  //   let bid = parseInt(form.bid.value)
+  //   housesService.bid(id, bid)
+  //   // @ts-ignore
+  //   Swal.fire(
+  //     'Bid Placed!',
+  //     'Keep a watchful eye!',
+  //     'success'
+  //   )
+  // }
   delete(id) {
     housesService.removeHouse(id)
   }
 
-  createHouse() {
-    event.preventDefault();
-    console.log("creating house")
+
+  editHouse(event, id) {
+    event.preventDefault()
     let form = event.target
-    console.log(form)
+    let editedHouse = {
+      year: form.year.value,
+      bedrooms: form.bedrooms.value,
+      imgUrl: form.imgUrl.value,
+      bathrooms: form.bathrooms.value,
+      description: form.description.value,
+      price: form.price.value,
+      levels: form.levels.value,
+      _id: id
+    }
+    // @ts-ignore
+    $('#editHouse-' + id).modal('toggle')
+    housesService.editHouse(editedHouse)
+  }
+
+  postHouse(event) {
+    event.preventDefault();
+    let form = event.target
+
     let rawHouse = {
       // @ts-ignore
       year: form.year.value,
       // @ts-ignore
-      style: form.style.value,
-      // @ts-ignore
       levels: form.levels.value,
       // @ts-ignore
-      img: form.img.value,
+      imgUrl: form.imgUrl.value,
       // @ts-ignore
       bathrooms: form.bathrooms.value,
       // @ts-ignore
-      price: form.price.value
+      price: form.price.value,
+      // @ts-ignore
+      bedrooms: form.bedrooms.value,
+      // @ts-ignore
+      description: form.description.value
     }
-    console.log(rawHouse)
-    housesService.createHouse(rawHouse)
+    form.reset()
+    housesService.postHouse(rawHouse)
     // @ts-ignore
     Swal.fire(
       'House added!',

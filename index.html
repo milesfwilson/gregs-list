@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10 border rounded p-2" id="form">
-                    <form onsubmit="app.carsController.createCar()" class="form">
+                    <form onsubmit="app.carsController.createCar(event)" class="form">
                         <div class="row">
                             <div class="col">
                                 <div class="form-group p-1">
@@ -131,7 +131,7 @@
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10 border rounded p-2" id="form">
-                    <form onsubmit="app.housesController.createHouse()" class="form">
+                    <form onsubmit="app.housesController.postHouse(event)" class="form">
                         <div class="row">
 
                             <div class="col-4">
@@ -141,13 +141,21 @@
                                         aria-describedby="helpId" placeholder="Year">
                                 </div>
                             </div>
+
                             <div class="col-4">
 
                                 <div class="form-group p-1">
-                                    <input type="text" class="form-control" name="style" id="style"
-                                        aria-describedby="helpId" placeholder="Style">
+                                    <input type="number" class="form-control" name="bedrooms" id="bedrooms"
+                                        aria-describedby="helpId" placeholder="Bedrooms">
                                 </div>
                             </div>
+
+
+
+
+
+
+
                             <div class="col-4">
 
                                 <div class="form-group p-1">
@@ -163,8 +171,8 @@
 
 
                                 <div class="form-group p-1">
-                                    <input type="url" class="form-control" name="img" id="img" aria-describedby="helpId"
-                                        placeholder="Image URL">
+                                    <input type="url" class="form-control" name="imgUrl" id="imgUrl"
+                                        aria-describedby="helpId" placeholder="Image URL">
                                 </div>
                             </div>
                             <div class="col-4">
@@ -179,6 +187,13 @@
                                 <div class="form-group p-1">
                                     <input type="number" class="form-control" name="price" id="price"
                                         aria-describedby="helpId" placeholder="Price">
+                                </div>
+                            </div>
+                            <div class="col-12">
+
+                                <div class="form-group p-1">
+                                    <input type="text" class="form-control" name="description" id="description"
+                                        aria-describedby="helpId" placeholder="Description">
                                 </div>
                             </div>
                         </div>
@@ -216,17 +231,17 @@
 
                         <div class="col-6">
 
-                            <form onsubmit="app.jobsController.createJob()" class="form">
+                            <form onsubmit="app.jobsController.createJob(event)" class="form">
                                 <div class="form-group p-1">
-                                    <input type="text" class="form-control" name="type" id="type"
-                                        aria-describedby="helpId" placeholder="Type">
+                                    <input type="text" class="form-control" name="jobTitle" id="jobTitle"
+                                        aria-describedby="helpId" placeholder="Job Title">
                                 </div>
                         </div>
                         <div class="col-6">
 
                             <div class="form-group p-1">
-                                <input type="text" class="form-control" name="qualifications" id="qualifications"
-                                    aria-describedby="helpId" placeholder="Qualifications">
+                                <input type="text" class="form-control" name="company" id="company"
+                                    aria-describedby="helpId" placeholder="Company">
                             </div>
                         </div>
                     </div>
@@ -236,8 +251,8 @@
                         <div class="col-6">
 
                             <div class="form-group p-1">
-                                <input type="number" class="form-control" name="pay" id="pay" aria-describedby="helpId"
-                                    placeholder="Payrate">
+                                <input type="number" class="form-control" name="rate" id="rate"
+                                    aria-describedby="helpId" placeholder="Rate">
                             </div>
                         </div>
                         <div class="col-6">
@@ -248,6 +263,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="form-group p-1">
+                                <input type="text" class="form-control" name="description" id="description"
+                                    aria-describedby="helpId" placeholder="Description">
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="row">
                         <div class="col-12">
 
@@ -273,6 +299,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="app/main.js" type="module"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -287,3 +314,91 @@
 </body>
 
 </html>
+
+
+
+
+
+
+
+<!-- 
+
+<div class="modal fade" id="editJob-${this._id}" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit ${this.jobTitle} at ${this.company}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="form">
+
+
+
+                <div class="col-12">
+                    <div class="row">
+
+                        <div class="col-6">
+
+                            <form class="form" onsubmit="app.jobsController.editJob(e, '${this._id}')">
+                                <div class="form-group p-1">
+                                    <input type="text" class="form-control" name="jobTitle" id="jobTitle"
+                                        aria-describedby="helpId" placeholder="Job Title" value="${this.jobTitle}">
+                                </div>
+                        </div>
+                        <div class="col-6">
+
+                            <div class="form-group p-1">
+                                <input type="text" class="form-control" name="company" id="company"
+                                    aria-describedby="helpId" placeholder="Company" value="${this.company}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-6">
+
+                            <div class="form-group p-1">
+                                <input type="number" class="form-control" name="rate" id="rate"
+                                    aria-describedby="helpId" placeholder="Rate" value="${this.rate}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+                            <div class="form-group p-1">
+                                <input type="number" class="form-control" name="hours" id="hours"
+                                    aria-describedby="helpId" placeholder="Hours" value="${this.hours}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="form-group p-1">
+                                <input type="text" class="form-control" name="description" id="description"
+                                    aria-describedby="helpId" placeholder="Description" value="${this.description}">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-primary btn-block" type="submit">Save</button>
+                            <button class="btn btn-danger btn-block mt-2"
+                                onclick="app.jobsController.delete('${this._id}')">Delete</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div> -->

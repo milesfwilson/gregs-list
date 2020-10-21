@@ -1,22 +1,34 @@
 import { ProxyState } from "../AppState.js";
 import Job from "../Models/Job.js"
+import { api } from "./AxiosService.js";
 
 export default class JobsService {
   constructor() {
-    console.log("hello from Jobs Service!")
+    this.getJobs()
   }
 
+  editJob(editedJob) {
+    api.put("/jobs/" + editedJob._id, editedJob).then(res =>
+      this.getJobs()
+    ).catch(err => console.error(err))
+  }
+  getJobs() {
+    api.get("/jobs").then(res =>
+      ProxyState.jobs = res.data.data.map(j => new Job(j))
+    ).catch(err => console.error(err))
+  }
   createJob(rawJob) {
-    let temp = ProxyState.jobs
-    temp.push(new Job(rawJob))
-    ProxyState.jobs = temp
+    api.post("/jobs", rawJob).then(res =>
+      this.getJobs()
+    ).catch(err => console.error(err))
   }
 
   removeJob(id) {
-    let temp = ProxyState.jobs
-    let index = temp.findIndex(j => j.id)
-    temp.splice(index, 1)
-    ProxyState.jobs = temp
+    api.delete("/jobs/" + id).then(res =>
+      this.getJobs()
+    ).catch(err => console.error(err))
+
+
     // @ts-ignore
     Swal.fire(
       'Deleted!',

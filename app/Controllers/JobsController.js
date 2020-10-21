@@ -16,6 +16,29 @@ export default class JobsController {
     ProxyState.on("jobs", _draw)
   }
 
+  editJob(e, id) {
+    e.preventDefault()
+    console.log("hello world!")
+    let form = e.target
+    let editedJob = {
+      // @ts-ignore
+      jobTitle: form.jobTitle.value,
+      // @ts-ignore
+      company: form.company.value,
+      // @ts-ignore
+      rate: form.rate.value,
+      // @ts-ignore
+      hours: form.hours.value,
+      // @ts-ignore
+      description: form.description.value,
+      _id: id
+    }
+    // @ts-ignore
+    $('#editJob-' + id).modal('toggle')
+
+    jobsService.editJob(editedJob)
+  }
+
   delete(id) {
     jobsService.removeJob(id)
   }
@@ -23,22 +46,25 @@ export default class JobsController {
   apply() {
     jobsService.apply()
   }
-  createJob() {
+  createJob(event) {
     event.preventDefault();
     let form = event.target
 
-    let rawJob = {
+    let newJob = {
       // @ts-ignore
-      type: form.type.value,
+      jobTitle: form.jobTitle.value,
       // @ts-ignore
-      qualifications: form.qualifications.value,
+      company: form.company.value,
       // @ts-ignore
-      pay: form.pay.value,
+      rate: form.rate.value,
       // @ts-ignore
       hours: form.hours.value,
-    }
+      // @ts-ignore
+      description: form.description.value
 
-    jobsService.createJob(rawJob)
+    }
+    form.reset()
+    jobsService.createJob(newJob)
     // @ts-ignore
     Swal.fire(
       'Job added!',

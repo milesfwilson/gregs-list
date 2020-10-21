@@ -14,9 +14,10 @@ export default class CarsController {
     console.log(ProxyState.cars)
     _draw()
     ProxyState.on("cars", _draw)
+
   }
 
-  createCar() {
+  createCar(event) {
     event.preventDefault();
     console.log("car creating")
     let form = event.target
@@ -33,8 +34,10 @@ export default class CarsController {
       // @ts-ignore
       description: form.description.value,
       // @ts-ignore
-      img: form.imgUrl.value
+      imgUrl: form.imgUrl.value
     }
+
+    form.reset()
     console.log(rawCar)
     // @ts-ignore
     Swal.fire(
@@ -42,11 +45,27 @@ export default class CarsController {
       'Now get bidding!',
       'success'
     )
-    carsService.createCar(rawCar)
+    carsService.postCar(rawCar)
   }
 
   delete(id) {
     carsService.removeCar(id)
+  }
+  editCar(e, id) {
+    e.preventDefault()
+    let form = e.target
+    let editedCar = {
+      make: form.make.value,
+      model: form.model.value,
+      year: form.year.value,
+      price: form.price.value,
+      description: form.description.value,
+      imgUrl: form.imgUrl.value,
+      _id: id
+    }
+    // @ts-ignore
+    $('#EditCarModal-' + id).modal('toggle')
+    carsService.editCar(editedCar)
   }
 
   bid(id) {

@@ -1,45 +1,31 @@
 import { ProxyState } from "../AppState.js";
 import House from "../Models/House.js"
-
+import { api } from './AxiosService.js'
 class HousesService {
   constructor() {
 
-    console.log("hello from HousesService!")
+    this.getHouses()
   }
-
-
-  createHouse(rawHouse) {
-    // let newCar = new Car(rawCar) 
-    // console.log(newCar)  
-    // let cars = [...ProxyState.cars, newCar ]
-    // ProxyState.cars = cars
-
-    // ProxyState.cars = ProxyState.cars.concat(new Car(rawCar))
-
-    let temp = ProxyState.houses
-    temp.push(new House(rawHouse))
-    ProxyState.houses = temp
+  getHouses() {
+    api.get("/houses").then(res =>
+      ProxyState.houses = res.data.data.map(h => new House(h))
+    ).catch(err => console.error(err))
+  }
+  postHouse(rawHouse) {
+    api.post("/houses", rawHouse).then(res =>
+      this.getHouses()
+    ).catch(err => console.error(err))
   }
   removeHouse(id) {
-    let temp = ProxyState.houses
-    let index = temp.findIndex(h => h.id == id)
-    temp.splice(index, 1)
-    ProxyState.houses = temp
-    // @ts-ignore
-    Swal.fire(
-      'Deleted!',
-      ' ',
-      'error'
-    )
+    api.delete("/houses/" + id).then(res =>
+      this.getHouses()
+    ).catch(err => console.error(err))
   }
 
-  bid(id, bidAmount) {
-    let temp = ProxyState.houses
-    if (bidAmount > 0) {
-      let house = temp.find(h => h.id == id)
-      house.price += parseInt(bidAmount)
-      ProxyState.houses = temp
-    }
+  editHouse(editedHouse) {
+    api.put("/houses/" + editedHouse._id, editedHouse).then(res =>
+      this.getHouses()
+    ).catch(err => console.error(err))
   }
 
 }
