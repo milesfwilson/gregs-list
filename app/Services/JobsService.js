@@ -14,7 +14,7 @@ export default class JobsService {
   }
   getJobs() {
     api.get("/jobs").then(res =>
-      ProxyState.jobs = res.data.data.map(j => new Job(j))
+      ProxyState.jobs = res.data.map(j => new Job(j))
     ).catch(err => console.error(err))
   }
   createJob(rawJob) {

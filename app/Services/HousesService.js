@@ -8,7 +8,7 @@ class HousesService {
   }
   getHouses() {
     api.get("/houses").then(res =>
-      ProxyState.houses = res.data.data.map(h => new House(h))
+      ProxyState.houses = res.data.map(h => new House(h))
     ).catch(err => console.error(err))
   }
   postHouse(rawHouse) {

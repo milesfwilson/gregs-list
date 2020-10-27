@@ -48,7 +48,7 @@ class CarsService {
   // NOTE this pulls from the cars API
   getCars() {
     api.get("/cars").then(res => {
-      ProxyState.cars = res.data.data.map(c => new Car(c))
+      ProxyState.cars = res.data.map(c => new Car(c))
     }).catch(err => console.error(err))
   }
 
